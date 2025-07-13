@@ -5,15 +5,17 @@
 ### 1. Setup Environment Variables
 
 1. **Copy file .env.example ke .env:**
+
    ```bash
    cp .env.example .env
    ```
 
 2. **Edit file .env dan masukkan nilai yang sebenarnya:**
+
    ```
    GROQ_API_KEY=your_actual_groq_api_key_here
    GROQ_API_URL=https://api.groq.com/openai/v1/chat/completions
-   
+
    # Database settings
    DB_HOST=localhost
    DB_USER=root
@@ -34,6 +36,7 @@ Setelah setup `.env`, semua konfigurasi akan otomatis dimuat oleh aplikasi.
 ### 4. Troubleshooting
 
 Jika muncul error "GROQ_API_KEY is required":
+
 1. Pastikan file `.env` ada di root folder
 2. Pastikan `GROQ_API_KEY` sudah diisi dengan nilai yang benar
 3. Restart web server setelah mengubah `.env`
