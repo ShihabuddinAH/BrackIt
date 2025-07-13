@@ -1,0 +1,489 @@
+@font-face {
+  font-family: Haverbrooke;
+  src: url(../Haverbrooke.otf) format("opentype");
+}
+
+:root {
+  --primary-color: #ff0000;
+  --secondary-color: #950101;
+  --tertiary-color: #3d0000;
+  --background: #000000;
+  --text-color: #ffffff;
+  --font-family: "Haverbrooke", sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: url(../../ASSETS/Background.png);
+  background-size: cover;
+  font-family: var(--font-family);
+  color: var(--text-color);
+  position: relative;
+  margin-top: 100px;
+}
+
+/* Header styles are imported from navbar.css */
+
+/* .logo {
+  width: 150px;
+  height: 150px;
+  flex-shrink: 0;
+  background: url(../ASSETS/LOGO.png);
+  background-size: cover;
+} */
+
+.nav-menu {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  list-style: none; /* Remove bullet points */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+}
+
+.nav-menu a {
+  font-size: 14px;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.user-icon {
+  width: 35px;
+  height: 35px;
+  background: url(../ASSETS/user.png);
+  background-size: cover;
+}
+
+.title {
+  font-size: 24px;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+/* Main Content */
+main {
+  padding: 0 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Title Section */
+.title-section {
+  text-align: center;
+  margin: 40px 0 60px;
+}
+
+.page-title {
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: 8px;
+  color: var(--text-color);
+  text-shadow: 0 0 30px rgba(255, 71, 87, 0.3);
+  margin: 0;
+}
+
+/* Search Bar - Updated for better symmetry */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 60px;
+  padding: 0 20px;
+}
+
+.search-bar {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 18px 60px 18px 24px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.search-bar input:focus {
+  border-color: #ff4757;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: left;
+  padding-left: 24px;
+}
+
+.search-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+.search-icon {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+}
+/* Teams Section */
+.teams-section {
+  margin-bottom: 80px;
+}
+
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  padding: 0 20px;
+}
+
+/* Team Cards */
+.team-card {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.team-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 71, 87, 0.1) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary-color);
+  box-shadow: 0 20px 50px rgba(255, 71, 87, 0.3);
+}
+
+.team-card:hover::before {
+  opacity: 1;
+}
+
+.team-logo {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.team-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.3));
+}
+
+/* Fallback team logos using CSS */
+.team-card:nth-child(1) .team-logo::before {
+  /* content: 'M4'; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #4a90e2, #7b68ee);
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.team-card:nth-child(2) .team-logo::before {
+  /* content: 'RRQ'; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ffd700, #ffb347);
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.team-card:nth-child(3) .team-logo::before {
+  /* content: 'AURA'; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+
+.team-card:nth-child(4) .team-logo::before {
+  /* content: 'BTR'; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff4757, #c44569);
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.team-info {
+  position: relative;
+  z-index: 2;
+}
+
+.team-name {
+  font-size: 1.8rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+  color: var(--text-color);
+  letter-spacing: 2px;
+}
+
+.team-members {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .teams-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+
+  .page-title {
+    font-size: 3.5rem;
+    letter-spacing: 6px;
+  }
+}
+
+@media (max-width: 900px) {
+  .teams-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .page-title {
+    font-size: 3rem;
+    letter-spacing: 4px;
+  }
+
+  header {
+    padding: 20px;
+  }
+
+  .nav-menu {
+    gap: 20px;
+  }
+
+  main {
+    padding: 0 20px;
+  }
+}
+
+/* Tablet styles (768px - 1024px) */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  body {
+    margin-top: 85px;
+  }
+
+  main {
+    padding: 0 30px;
+  }
+
+  .page-title {
+    font-size: 3rem;
+    letter-spacing: 5px;
+  }
+
+  .search-bar {
+    width: 90%;
+    max-width: 500px;
+  }
+
+  .teams-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 800px;
+  }
+
+  .team-card {
+    padding: 25px 20px;
+  }
+
+  .team-logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+  }
+
+  .team-name {
+    font-size: 1.4rem;
+  }
+
+  .team-members {
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile styles (max-width: 768px) */
+@media screen and (max-width: 768px) {
+  body {
+    margin-top: 80px;
+  }
+
+  main {
+    padding: 0 15px;
+  }
+
+  .title-section {
+    margin: 20px 0 40px;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+  }
+
+  .search-container {
+    margin-bottom: 40px;
+    padding: 0 10px;
+  }
+
+  .search-bar {
+    width: 100%;
+    max-width: none;
+    padding: 12px 45px 12px 15px;
+  }
+
+  .search-bar input {
+    font-size: 14px;
+    padding: 12px 45px 12px 15px;
+  }
+
+  .search-icon {
+    left: 15px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .teams-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    max-width: none;
+  }
+
+  .team-card {
+    padding: 20px 15px;
+    margin: 0 5px;
+  }
+
+  .team-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 15px;
+  }
+
+  .team-name {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+
+  .team-members {
+    font-size: 0.85rem;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 600px) {
+  .teams-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    letter-spacing: 2px;
+  }
+
+  .team-card {
+    padding: 18px 15px;
+  }
+
+  .team-logo {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 15px;
+  }
+
+  .team-name {
+    font-size: 1.1rem;
+  }
+
+  .search-bar input {
+    padding: 12px 40px 12px 15px;
+    font-size: 13px;
+  }
+
+  .search-icon {
+    left: 15px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Ultra-wide screens */
+@media screen and (min-width: 1600px) {
+  .teams-grid {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1400px;
+  }
+
+  .page-title {
+    font-size: 5rem;
+    letter-spacing: 10px;
+  }
+}

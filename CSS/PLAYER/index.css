@@ -1,0 +1,1128 @@
+@font-face {
+  font-family: Haverbrooke;
+  src: url(../Haverbrooke.otf) format("opentype");
+}
+
+:root {
+  --primary-color: #ff0000;
+  --secondary-color: #950101;
+  --tertiary-color: #3d0000;
+  --background: #000000;
+  --text-color: #ffffff;
+  --font-family: "Haverbrooke", sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: url(../../ASSETS/Background.png);
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: var(--font-family);
+  color: var(--text-color);
+  position: relative;
+  overflow-x: hidden;
+  margin-top: 100px;
+  padding-top: 0;
+}
+
+/* Navbar styles moved to navbar.css */
+
+.title {
+  font-size: 24px;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.tournament {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+
+.tournament-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.team-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tournament-card,
+.team-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 20px;
+  padding: 35px 25px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tournament-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 0, 0, 0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tournament-card:hover {
+  transform: translateY(-10px);
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 20px 50px rgba(255, 0, 0, 0.3);
+}
+
+.tournament-card:hover::before {
+  opacity: 1;
+}
+
+.tournament-card .tournament-logo {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.tournament-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.3));
+}
+
+.tournament-card h1 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin: 10px 0;
+  color: var(--text-color);
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 2;
+  line-height: 1.2;
+}
+
+.klasemen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    var(--primary-color),
+    var(--tertiary-color)
+  );
+  opacity: 80%;
+  color: var(--text-color);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.klasemen-table {
+  width: 100%;
+  min-width: 1500px; /* Diperbesar dari 600px */
+  border-collapse: separate;
+  border-spacing: 0 20px; /* Diperbesar dari 15px */
+  font-size: 24px; /* Diperbesar dari 20px */
+  text-align: center;
+  margin-top: 30px; /* Diperbesar dari 20px */
+}
+
+.klasemen-table th,
+.klasemen-table td {
+  padding: 20px 30px; /* Diperbesar dari 15px 20px */
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 15px; /* Diperbesar dari 10px */
+  color: var(--text-color);
+}
+
+.klasemen-table th {
+  background-color: var(--background);
+  fill-opacity: 70%;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px; /* Diperbesar dari 1px */
+}
+
+.klasemen h1 {
+  font-size: 48px; /* Diperbesar dari 36px */
+  margin-bottom: 30px; /* Diperbesar dari 20px */
+  text-transform: uppercase;
+  letter-spacing: 3px; /* Diperbesar dari 2px */
+}
+
+.contactus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    var(--tertiary-color),
+    var(--background)
+  );
+  opacity: 80%;
+  color: var(--text-color);
+  padding: 60px 20px;
+  box-sizing: border-box;
+}
+
+.contactus h1 {
+  font-size: 36px;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.contact-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  width: 100%;
+  max-width: 1200px;
+  align-items: start;
+}
+
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.contact-item {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.2);
+}
+
+.contact-item h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.contact-item p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.social-media {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 15px;
+  padding: 40px;
+}
+
+.social-media h3 {
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+.social-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px;
+}
+
+.social-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.social-link:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(255, 0, 0, 0.2);
+  border-color: var(--primary-color);
+}
+
+.social-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+
+.social-link:hover .social-icon {
+  transform: scale(1.2);
+}
+
+.social-link span {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Section Headers */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-subtitle {
+  font-size: 32px;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: bold;
+  text-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+  margin: 0;
+}
+
+.section-link {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.section-link:hover {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  background: rgba(255, 0, 0, 0.1);
+}
+
+/* Teams Section */
+.teams {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+}
+
+.team-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.team-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 0, 0, 0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-10px);
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 20px 50px rgba(255, 0, 0, 0.3);
+}
+
+.team-card:hover::before {
+  opacity: 1;
+}
+
+.team-card .team-logo {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.team-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.3));
+}
+
+.team-card h1 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin: 10px 0;
+  color: var(--text-color);
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 2;
+  line-height: 1.2;
+}
+
+.team-card p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+  position: relative;
+  z-index: 2;
+  margin: 0;
+}
+
+/* Animations */
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Chatbot Styles */
+.chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.chatbot-button {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--secondary-color) 100%
+  );
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+.chatbot-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 0, 0, 0.7);
+  }
+  70% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 0 10px rgba(255, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 0, 0, 0);
+  }
+}
+
+.chatbot-window {
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+  width: 350px;
+  height: 450px;
+  background: var(--text-color);
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  border: 2px solid var(--primary-color);
+}
+
+.chatbot-header {
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--secondary-color) 100%
+  );
+  color: var(--text-color);
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatbot-header h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font-family);
+}
+
+.chatbot-close {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+
+.chatbot-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.chatbot-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: var(--background);
+}
+
+.message {
+  max-width: 80%;
+  padding: 12px 16px;
+  border-radius: 18px;
+  line-height: 1.4;
+}
+
+.bot-message {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  align-self: flex-start;
+  backdrop-filter: blur(10px);
+}
+
+.user-message {
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--secondary-color) 100%
+  );
+  color: var(--text-color);
+  align-self: flex-end;
+}
+
+.message p {
+  margin: 0;
+  font-size: 14px;
+  font-family: var(--font-family);
+}
+
+.chatbot-input {
+  padding: 15px 20px;
+  border-top: 1px solid var(--primary-color);
+  display: flex;
+  gap: 10px;
+  background: var(--background);
+}
+
+.chatbot-input input {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid var(--primary-color);
+  border-radius: 25px;
+  outline: none;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  font-family: var(--font-family);
+}
+
+.chatbot-input input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.chatbot-input input:focus {
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+}
+
+.chatbot-input button {
+  padding: 12px 20px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--secondary-color) 100%
+  );
+  color: var(--text-color);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-family);
+  transition: all 0.3s ease;
+}
+
+.chatbot-input button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+  .tournament-cards,
+  .team-cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+
+  .nav-menu {
+    gap: 30px;
+  }
+
+  .nav-menu a {
+    font-size: 15px;
+  }
+
+  .section-subtitle {
+    font-size: 28px;
+    letter-spacing: 2px;
+  }
+
+  .section-header {
+    padding: 0 15px;
+    margin-bottom: 40px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .tournament-cards,
+  .team-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 0 15px;
+  }
+
+  .section-subtitle {
+    font-size: 24px;
+    letter-spacing: 2px;
+  }
+
+  .section-header {
+    padding: 0 10px;
+    margin-bottom: 30px;
+  }
+
+  .tournament,
+  .teams {
+    padding: 40px 15px;
+  }
+
+  .tournament-card,
+  .team-card {
+    padding: 30px 20px;
+  }
+
+  .tournament-card .tournament-logo,
+  .team-card .team-logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+  }
+
+  .tournament-card h1,
+  .team-card h1 {
+    font-size: 1.4rem;
+  }
+}
+
+/* Navbar responsive styles moved to navbar.css */
+
+@media screen and (max-width: 600px) {
+  .tournament-cards,
+  .team-cards {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 0 10px;
+  }
+
+  .tournament-card,
+  .team-card {
+    padding: 25px 20px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+  }
+
+  .tournament-card .tournament-logo,
+  .team-card .team-logo {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 15px;
+  }
+
+  .tournament-card h1,
+  .team-card h1 {
+    font-size: 1.3rem;
+  }
+
+  .tournament,
+  .teams {
+    padding: 25px 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  /* Header for mobile */
+  header {
+    padding: 0.5rem;
+  }
+
+  .logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .nav-menu {
+    gap: 15px;
+  }
+
+  .nav-menu a {
+    font-size: 14px;
+  }
+
+  /* Title for mobile */
+  .title {
+    margin: 1rem 0;
+  }
+
+  .title h1 {
+    font-size: 24px;
+  }
+
+  .title p {
+    font-size: 14px;
+  }
+
+  /* Tournament for mobile */
+  .tournament {
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding: 20px 10px;
+  }
+
+  .teams {
+    padding: 20px 10px;
+  }
+
+  .tournament-cards,
+  .team-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0 10px;
+  }
+
+  .tournament-card,
+  .team-card {
+    padding: 20px 15px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 280px;
+    box-sizing: border-box;
+  }
+
+  .tournament-card .tournament-logo,
+  .team-card .team-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 12px;
+  }
+
+  .tournament-card h1,
+  .team-card h1 {
+    font-size: 1.1rem;
+    line-height: 1.2;
+  }
+
+  .team-card p {
+    font-size: 11px;
+  }
+
+  .section-subtitle {
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+
+  .section-header {
+    margin-bottom: 15px;
+    padding: 0;
+  }
+
+  .section-link {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  /* Klasemen for mobile */
+  .klasemen h1 {
+    font-size: 32px; /* Diperbesar dari 24px */
+  }
+
+  .klasemen-table {
+    font-size: 16px; /* Diperbesar dari 14px */
+    max-width: 100%; /* Memastikan full width di mobile */
+  }
+
+  .klasemen-table th,
+  .klasemen-table td {
+    padding: 12px 15px; /* Diperbesar dari 8px 10px */
+  }
+
+  /* Contact for mobile */
+  .contactus h1 {
+    font-size: 24px;
+  }
+
+  .contact-item {
+    padding: 20px 15px;
+  }
+
+  .contact-item h3 {
+    font-size: 16px;
+  }
+
+  .contact-item p {
+    font-size: 13px;
+  }
+
+  .social-media {
+    padding: 25px 15px;
+  }
+
+  .social-media h3 {
+    font-size: 18px;
+  }
+
+  .social-links {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .social-link {
+    padding: 15px 10px;
+  }
+
+  .social-icon {
+    font-size: 24px;
+  }
+
+  .social-link span {
+    font-size: 12px;
+  }
+}
+
+/* Tablet styles (768px - 1024px) */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  body {
+    margin-top: 85px;
+    padding-top: 15px;
+  }
+
+  .title h1 {
+    font-size: 2.2rem;
+  }
+
+  .title p {
+    font-size: 1.05rem;
+  }
+
+  .tournament,
+  .teams {
+    padding: 45px 15px;
+  }
+
+  .tournament-cards,
+  .team-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 0 15px;
+  }
+
+  .tournament-card,
+  .team-card {
+    padding: 25px 20px;
+  }
+
+  .tournament-card .tournament-logo {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 20px;
+  }
+
+  .team-card .team-logo {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 20px;
+  }
+
+  .tournament-card h1,
+  .team-card h1 {
+    font-size: 1.25rem;
+  }
+
+  .section-subtitle {
+    font-size: 2.2rem;
+  }
+
+  .klasemen-table {
+    font-size: 18px; /* Diperbesar dari 14px */
+    max-width: 800px; /* Menambahkan max-width untuk tablet */
+  }
+
+  .contact-content {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .contact-info {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .social-links {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Mobile styles (max-width: 768px) */
+@media screen and (max-width: 768px) {
+  body {
+    margin-top: 80px;
+    padding-top: 20px;
+  }
+
+  .title {
+    margin: 1rem 0;
+    padding: 0 15px;
+  }
+
+  .title h1 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+
+  .title p {
+    font-size: 0.95rem;
+    margin-top: 10px;
+  }
+
+  .tournament,
+  .teams {
+    padding: 30px 10px;
+  }
+
+  .tournament-cards,
+  .team-cards {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 0 10px;
+    max-width: 100%;
+  }
+
+  .tournament-card,
+  .team-card {
+    padding: 20px 15px;
+    margin: 0;
+    min-height: auto;
+  }
+
+  .tournament-card .tournament-logo,
+  .team-card .team-logo {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+  }
+
+  .tournament-card h1,
+  .team-card h1 {
+    font-size: 1.1rem;
+    line-height: 1.3;
+    margin: 10px 0;
+  }
+
+  .team-card p {
+    font-size: 0.85rem;
+    margin: 8px 0;
+  }
+
+  .section-subtitle {
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+  }
+
+  .section-header {
+    padding: 0 15px;
+    margin-bottom: 25px;
+  }
+
+  .section-link {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  .klasemen {
+    padding: 40px 15px; /* Diperbesar dari 30px */
+  }
+
+  .klasemen h1 {
+    font-size: 2.2rem; /* Diperbesar dari 1.8rem */
+    margin-bottom: 25px; /* Diperbesar dari 20px */
+  }
+
+  .klasemen-table {
+    font-size: 14px; /* Diperbesar dari 12px */
+    width: 100%;
+    margin: 0;
+  }
+
+  .klasemen-table th,
+  .klasemen-table td {
+    padding: 10px 8px; /* Diperbesar dari 8px 5px */
+    text-align: center;
+  }
+
+  .contactus {
+    padding: 30px 15px;
+  }
+
+  .contactus h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  .contact-content {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .contact-info {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .contact-item h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .contact-item p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .social-media h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+  }
+
+  .social-links {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .social-link {
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .social-link span {
+    font-size: 13px;
+  }
+
+  .social-icon {
+    font-size: 16px;
+  }
+}
+
+/* Debug borders */
+/* * {
+  border: 1px solid red !important;
+  box-sizing: border-box !important;
+} */

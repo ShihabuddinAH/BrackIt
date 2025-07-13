@@ -1,0 +1,26 @@
+# Protect sensitive files
+<Files "config.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "chatbot_logger.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "connect.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "*.txt">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Allow only groq_chat.php to be accessed directly
+<Files "groq_chat.php">
+    Order allow,deny
+    Allow from all
+</Files>
