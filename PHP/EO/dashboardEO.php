@@ -7,7 +7,7 @@ include '../LOGIN/session.php';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard EO - BrackIt</title>
-    <link rel="stylesheet" href="../../CSS/dashboardEO.css" />
+    <link rel="stylesheet" href="../../CSS/EO/dashboardEO.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"

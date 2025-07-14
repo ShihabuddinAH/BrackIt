@@ -607,9 +607,37 @@ function handleDeleteTournament(row) {
 
 // Logout Handler
 function handleLogout() {
-  if (confirm("Yakin ingin logout?")) {
-    window.location.href = "index.html";
-  }
+  // Send logout request to server
+  fetch("../LOGIN/logout.php", {
+    method: "POST",
+    headers: {
+      "X-Requested-With": "XMLHttpRequest",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        // Clear localStorage
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("username");
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userRole");
+
+        alert("Logout berhasil!");
+        window.location.href = "../../index.php";
+      }
+    })
+    .catch((error) => {
+      console.error("Logout error:", error);
+      // Fallback: clear local data anyway
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("username");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("userRole");
+      window.location.href = "../../index.php";
+    });
 }
 
 // Notification System
