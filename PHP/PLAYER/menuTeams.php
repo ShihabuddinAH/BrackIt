@@ -37,6 +37,7 @@ if ($result && $result->num_rows > 0) {
     <title>Teams - BrackIt</title>
     <link rel="stylesheet" href="../../CSS/PLAYER/navbar.css" />
     <link rel="stylesheet" href="../../CSS/PLAYER/teams.css" />
+    <link rel="stylesheet" href="../../CSS/PLAYER/team-modal.css" />
   </head>
   <body>
     <!-- Background overlay -->
@@ -44,10 +45,9 @@ if ($result && $result->num_rows > 0) {
 
     <!-- Header Navigation -->
     <header class="header">
-      <div class="logo"></div>
+      <div class="logo" onclick="window.location.href='../../index.php'" style="cursor: pointer;"></div>
       <nav class="nav">
         <ul class="nav-menu">
-          <li><a href="../../index.php">Home</a></li>
           <li><a href="menuTournament.php">Tournaments</a></li>
           <li><a href="menuTeams.php">Teams</a></li>
         </ul>
@@ -109,9 +109,21 @@ if ($result && $result->num_rows > 0) {
         <div class="teams-grid">
           <?php if (!empty($new_teams)): ?>
             <?php foreach ($new_teams as $index => $team): ?>
-              <div class="team-card">
+              <div class="team-card" data-team-id="<?php echo htmlspecialchars($team['id_team']); ?>">
                 <div class="team-logo">
-                  <img src="../../ASSETS/LOGO_TEAM/<?php echo htmlspecialchars($team['logo_team']); ?>" alt="<?php echo htmlspecialchars($team['nama_team']); ?> Logo" />
+                  <?php 
+                  $logo_name = htmlspecialchars($team['logo_team']);
+                  $logo_path = "../../ASSETS/LOGO_TEAM/" . $logo_name;
+                  $fallback_logo = "../../ASSETS/LOGO.png";
+                  
+                  // Check if logo file exists, if not use fallback
+                  if (!file_exists($logo_path)) {
+                    $logo_path = $fallback_logo;
+                  }
+                  ?>
+                  <img src="<?php echo $logo_path; ?>" 
+                       alt="<?php echo htmlspecialchars($team['nama_team']); ?> Logo"
+                       onerror="this.src='<?php echo $fallback_logo; ?>'" />
                 </div>
                 <div class="team-info">
                   <h3 class="team-name"><?php echo htmlspecialchars($team['nama_team']); ?></h3>
@@ -128,8 +140,12 @@ if ($result && $result->num_rows > 0) {
       </section>
     </main>
 
-    <script src="SCRIPT/navbar.js"></script>
+    <script src="../../SCRIPT/navbar.js"></script>
+    <script src="../../SCRIPT/team-modal.js"></script>
     <script>
+      // Pass teams data to JavaScript for team modal
+      const teamsData = <?php echo json_encode($new_teams); ?>;
+      
       // Logout functionality
       document.addEventListener('DOMContentLoaded', function() {
           const logoutBtn = document.getElementById('logoutBtn');

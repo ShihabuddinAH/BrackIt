@@ -40,10 +40,9 @@ if ($result && $result->num_rows > 0) {
   </head>
   <body>
     <header class="header">
-      <div class="logo"></div>
+      <div class="logo" onclick="window.location.href='../../index.php'" style="cursor: pointer;"></div>
       <nav class="nav">
         <ul class="nav-menu">
-          <li><a href="../../index.php">Home</a></li>
           <li><a href="menuTournament.php">Tournaments</a></li>
           <li><a href="menuTeams.php">Teams</a></li>
         </ul>

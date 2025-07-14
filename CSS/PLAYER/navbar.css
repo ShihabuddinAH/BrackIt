@@ -25,6 +25,13 @@ header {
   background-repeat: no-repeat;
   background-position: left center;
   z-index: 1001;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  opacity: 0.8;
+  cursor: pointer;
 }
 
 .nav {

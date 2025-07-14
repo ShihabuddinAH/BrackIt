@@ -57,6 +57,7 @@ if ($result && $result->num_rows > 0) {
     <title>Welcome to BrackIt</title>
     <link rel="stylesheet" href="CSS/PLAYER/navbar.css" />
     <link rel="stylesheet" href="CSS/PLAYER/index.css" />
+    <link rel="stylesheet" href="CSS/PLAYER/team-modal.css" />
   </head>
   <body>
     <header class="header">
@@ -109,7 +110,9 @@ if ($result && $result->num_rows > 0) {
             <?php foreach ($new_turnamen as $index => $turnamen): ?>
               <div class="tournament-card">
                 <div class="tournament-logo">
-                  <img src="ASSETS/LOGO.png" alt="Unisi Cup" />
+                  <img src="ASSETS/LOGO.png" 
+                       alt="<?php echo htmlspecialchars($turnamen['nama_turnamen']); ?>" 
+                       onerror="this.src='ASSETS/LOGO.png'" />
                 </div>
                 <h1><?php echo htmlspecialchars($turnamen['nama_turnamen']); ?></h1>
               </div>
@@ -130,9 +133,21 @@ if ($result && $result->num_rows > 0) {
         <div class="team-cards">
           <?php if (!empty($new_teams)): ?>
             <?php foreach ($new_teams as $index => $team): ?>
-              <div class="team-card">
+              <div class="team-card" data-team-id="<?php echo htmlspecialchars($team['id_team']); ?>">
                       <div class="team-logo">
-                        <img src="ASSETS/LOGO_TEAM/<?php echo htmlspecialchars($team['logo_team']); ?>" alt="RRQ Team" />
+                        <?php 
+                        $logo_name = htmlspecialchars($team['logo_team']);
+                        $logo_path = 'ASSETS/LOGO_TEAM/' . $logo_name;
+                        $fallback_logo = 'ASSETS/LOGO.png';
+                        
+                        // Check if logo file exists, if not use fallback
+                        if (!file_exists($logo_path)) {
+                          $logo_path = $fallback_logo;
+                        }
+                        ?>
+                        <img src="<?php echo $logo_path; ?>" 
+                             alt="<?php echo htmlspecialchars($team['nama_team']); ?>" 
+                             onerror="this.src='<?php echo $fallback_logo; ?>'" />
                       </div>
                       <h1><?php echo htmlspecialchars($team['nama_team']); ?></h1>
                       <p><?php echo htmlspecialchars($team['deskripsi_team']); ?></p>
@@ -264,6 +279,12 @@ if ($result && $result->num_rows > 0) {
 
     <script src="SCRIPT/navbar.js"></script>
     <script src="SCRIPT/chatbot.js"></script>
+    <script src="SCRIPT/team-modal.js"></script>
+    
+    <script>
+    // Pass teams data to JavaScript for team modal
+    const teamsData = <?php echo json_encode($new_teams); ?>;
+    </script>
     
     <?php
     // Close database connection
