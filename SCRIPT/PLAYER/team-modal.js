@@ -147,15 +147,11 @@ class TeamModal {
         apiPath = "getTeamDetails.php";
       } else if (
         currentPath.includes("index.php") ||
-        currentPath === "/" ||
-        currentPath.includes("TEST/")
+        currentPath === "/BrackIt"
       ) {
         apiPath = "PHP/PLAYER/getTeamDetails.php";
       }
 
-      console.log("Current path:", currentPath);
-      console.log("API path:", apiPath);
-      console.log("Team ID:", teamId);
 
       const response = await fetch(apiPath, {
         method: "POST",
@@ -165,15 +161,12 @@ class TeamModal {
         body: JSON.stringify({ team_id: parseInt(teamId) }),
       });
 
-      console.log("Response status:", response.status);
-      console.log("Response ok:", response.ok);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log("Response data:", data);
 
       if (!data.success) {
         throw new Error(data.error || "Failed to fetch team data");
@@ -212,18 +205,24 @@ class TeamModal {
     const logoPath = `${basePath}ASSETS/LOGO_TEAM/${team.logo}`;
     const fallbackPath = `${basePath}ASSETS/LOGO.png`;
 
-    console.log("Current path:", window.location.pathname);
-    console.log("Base path:", basePath);
-    console.log("Logo path:", logoPath);
-    console.log("Fallback path:", fallbackPath);
 
     const membersHTML = members
       .map(
         (member) => `
             <div class="member-card">
                 <div class="member-avatar">${member.avatar}</div>
-                <div class="member-name">${member.name}</div>
-                <div class="member-role">${member.role}</div>
+                <div class="member-info">
+                    <div class="member-name">${member.name}</div>
+                    <div class="member-nickname">${
+                      member.nickname || member.name
+                    }</div>
+                    <div class="member-role">${member.role}</div>
+                    ${
+                      member.idGame
+                        ? `<div class="member-id">ID: ${member.idGame}</div>`
+                        : ""
+                    }
+                </div>
             </div>
         `
       )
@@ -236,7 +235,6 @@ class TeamModal {
                          alt="${team.name}" 
                          class="team-logo-large"
                          style="animation: none !important;"
-                         onerror="console.log('Logo failed:', this.src); this.onerror=null; this.src='${fallbackPath}';">
                     <h3 style="margin: 20px 0 10px; color: var(--text-color); text-align: center;">
                         Rank #${team.rank}
                     </h3>
@@ -254,10 +252,26 @@ class TeamModal {
                     </div>
                     
                     <div class="stat-card">
+                        <div class="stat-label">Losses</div>
+                        <div class="stat-value">${team.loses || 0}</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-label">Total Matches</div>
+                        <div class="stat-value">${
+                          (team.wins || 0) + (team.loses || 0)
+                        }</div>
+                    </div>
+                    
+                    <div class="stat-card">
                         <div class="stat-label">Win Rate</div>
-                        <div class="stat-value">${this.calculateWinRate(
-                          team.wins
-                        )}%</div>
+                        <div class="stat-value">${
+                          team.win_rate ||
+                          this.calculateWinRate(
+                            team.wins,
+                            (team.wins || 0) + (team.loses || 0)
+                          )
+                        }%</div>
                     </div>
                 </div>
             </div>
@@ -276,10 +290,16 @@ class TeamModal {
         `;
   }
 
-  calculateWinRate(wins) {
-    // Simple calculation - you can modify this based on your actual data
-    const totalGames = wins + Math.floor(wins * 0.3); // Assuming some losses
-    return totalGames > 0 ? Math.round((wins / totalGames) * 100) : 0;
+  calculateWinRate(wins, totalMatches) {
+    // Calculate win rate based on actual total matches
+    if (totalMatches && totalMatches > 0) {
+      return Math.round((wins / totalMatches) * 100);
+    }
+    // Fallback: Simple calculation - you can modify this based on your actual data
+    const estimatedTotalGames = wins + Math.floor(wins * 0.3); // Assuming some losses
+    return estimatedTotalGames > 0
+      ? Math.round((wins / estimatedTotalGames) * 100)
+      : 0;
   }
 
   // Method to update team cards with team IDs (call this after loading teams)

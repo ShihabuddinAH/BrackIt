@@ -56,7 +56,6 @@ async function handleRegister(event) {
       showMessage(
         "Registration successful! Redirecting to login...",
         "success"
-      );
       setTimeout(() => {
         window.location.href = "PHP/LOGIN/login.php";
       }, 2000);
@@ -64,14 +63,12 @@ async function handleRegister(event) {
       showMessage(
         result.message || "Registration failed. Please try again.",
         "error"
-      );
     }
   } catch (error) {
     console.error("Registration error:", error);
     showMessage(
       "Network error. Please check your connection and try again.",
       "error"
-    );
   } finally {
     showLoading(submitBtn, false);
   }
@@ -130,7 +127,6 @@ function validateField(fieldName, value, rules) {
     showFieldError(
       fieldName,
       `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`
-    );
     field.classList.add("error");
     field.classList.remove("success");
     return false;
@@ -191,7 +187,6 @@ function clearErrorMessages() {
 
   const fields = document.querySelectorAll(
     ".form-group input, .form-group select"
-  );
   fields.forEach((field) => {
     field.classList.remove("error", "success");
   });
@@ -301,7 +296,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Clear validation styles on input
   const allFields = document.querySelectorAll(
     ".form-group input, .form-group select"
-  );
   allFields.forEach((field) => {
     field.addEventListener("input", function () {
       this.classList.remove("error", "success");

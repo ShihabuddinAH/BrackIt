@@ -18,6 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
             $_SESSION['last_activity'] = time();
+            
+            // Set user_id based on role
+            if ($role === 'eo') {
+                $_SESSION['user_id'] = $user['id_eo'];
+            } elseif ($role === 'admin') {
+                $_SESSION['user_id'] = $user['id_admin'];
+            } elseif ($role === 'player') {
+                $_SESSION['user_id'] = $user['id_player'];
+            }
 
             $updateStatusSql = "UPDATE $role SET status = 'active' WHERE username = '$username'";
             $conn->query($updateStatusSql);

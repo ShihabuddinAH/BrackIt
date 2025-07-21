@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Initialize dashboard
   initializeDashboard();
-  initializeCharts();
+  // Remove chart initialization from here - handled by dashboardEOCharts.js
   initializeEventListeners();
   initializeLogout();
   updateDateTime();
@@ -114,6 +114,25 @@ function initializeEventListeners() {
     link.addEventListener("click", handleNavClick);
   });
 
+  // View all tournaments link
+  const viewAllLink = document.querySelector(".view-all");
+  if (viewAllLink) {
+    viewAllLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      showSection("tournaments");
+      updatePageTitle("tournaments");
+
+      // Update active nav item
+      document.querySelectorAll(".nav-item").forEach((item) => {
+        item.classList.remove("active");
+      });
+      document
+        .querySelector('[data-section="tournaments"]')
+        .closest(".nav-item")
+        .classList.add("active");
+    });
+  }
+
   // Add tournament button
   const addTournamentBtn = document.getElementById("addTournamentBtn");
   if (addTournamentBtn) {
@@ -211,34 +230,50 @@ function updatePageTitle(section) {
   }
 }
 
-// Charts Initialization
-function initializeCharts() {
-  console.log("Initializing EO charts...");
-  // Add delay to ensure DOM is fully ready
-  setTimeout(() => {
-    initializeRevenueChart();
-    initializeTournamentStatusChart();
-  }, 100);
-}
+// Charts Initialization - DEPRECATED
+// Chart initialization is now handled by dashboardEOCharts.js
+// function initializeCharts() {
+//   // This function is no longer used
+// }
 
-// Revenue Chart
+// Revenue Chart - DEPRECATED
+// Chart initialization is now handled by dashboardEOCharts.js
+/*
 function initializeRevenueChart() {
   const ctx = document.getElementById("revenueChart");
-  console.log("RevenueChart element:", ctx);
   if (!ctx) {
     console.error("RevenueChart canvas not found");
     return;
   }
 
   try {
-    new Chart(ctx, {
+    // Check if Chart.js is loaded
+    if (typeof Chart === 'undefined') {
+      console.error("Chart.js library not loaded");
+      return;
+    }
+
+    // Use data from PHP if available, otherwise use default data
+    const revenueLabels = window.chartData?.revenueLabels || [
+      "Jul",
+      "Agu",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Des",
+    ];
+    const revenueData = window.chartData?.revenueData || [
+      12, 15, 8, 22, 18, 25,
+    ];
+
+    window.revenueChart = new Chart(ctx, {
       type: "line",
       data: {
-        labels: ["Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+        labels: revenueLabels,
         datasets: [
           {
             label: "Pendapatan (Juta Rp)",
-            data: [12, 15, 8, 22, 18, 25],
+            data: revenueData,
             borderColor: "#4285f4",
             backgroundColor: "rgba(66, 133, 244, 0.1)",
             borderWidth: 3,
@@ -270,13 +305,15 @@ function initializeRevenueChart() {
         },
       },
     });
-    console.log("RevenueChart initialized successfully");
   } catch (error) {
     console.error("Error initializing RevenueChart:", error);
   }
 }
+*/
 
-// Tournament Status Chart (Pie Chart)
+// Tournament Status Chart (Pie Chart) - DEPRECATED
+// Chart initialization is now handled by dashboardEOCharts.js
+/*
 function initializeTournamentStatusChart() {
   const pieCtx = document.createElement("canvas");
   pieCtx.id = "tournamentStatusChart";
@@ -296,13 +333,21 @@ function initializeTournamentStatusChart() {
   }
 
   if (pieCtx) {
-    new Chart(pieCtx, {
+    // Use data from PHP if available, otherwise use default data
+    const statusLabels = window.chartData?.statusLabels || [
+      "Aktif",
+      "Selesai",
+      "Akan Datang",
+    ];
+    const statusData = window.chartData?.statusData || [3, 8, 1];
+
+    window.statusChart = new Chart(pieCtx, {
       type: "doughnut",
       data: {
-        labels: ["Aktif", "Selesai", "Akan Datang"],
+        labels: statusLabels,
         datasets: [
           {
-            data: [3, 8, 1],
+            data: statusData,
             backgroundColor: ["#4CAF50", "#2196F3", "#FF9800"],
             borderWidth: 0,
           },
@@ -320,6 +365,7 @@ function initializeTournamentStatusChart() {
     });
   }
 }
+*/
 
 // Load Dashboard Stats
 function loadDashboardStats() {
@@ -385,7 +431,6 @@ function loadRecentTournaments() {
   const tournamentList = document.querySelector(".tournament-list");
   if (tournamentList) {
     // Already populated in HTML, could be dynamic here
-    console.log("Recent tournaments loaded:", tournaments.length);
   }
 }
 
@@ -416,28 +461,79 @@ function closeModal() {
 function handleAddTournament(e) {
   e.preventDefault();
 
-  const formData = new FormData(e.target);
-  const tournamentData = {
-    name: formData.get("tournamentName"),
-    game: formData.get("gameType"),
-    startDate: formData.get("startDate"),
-    endDate: formData.get("endDate"),
-    maxTeams: formData.get("maxTeams"),
-    prizePool: formData.get("prizePool"),
-    description: formData.get("description"),
-    registrationFee: formData.get("registrationFee"),
-    type: formData.get("tournamentType"),
-  };
+  const form = e.target;
+  const formData = new FormData(form);
 
-  // Validate form
-  if (!validateTournamentForm(tournamentData)) {
+  // Convert FormData to JSON
+  const data = {};
+  for (let [key, value] of formData.entries()) {
+    data[key] = value;
+  }
+
+  // Check if this is edit mode
+  const isEditMode = form.dataset.mode === "edit";
+  const tournamentId = form.dataset.tournamentId;
+
+  // Validate dates
+  const startDate = new Date(data.startDate);
+  const endDate = new Date(data.endDate);
+
+  if (endDate <= startDate) {
+    showNotification("Tanggal selesai harus setelah tanggal mulai", "error");
     return;
   }
 
-  // Simulate API call
-  addTournamentToTable(tournamentData);
-  closeModal();
-  showNotification("Turnamen berhasil ditambahkan!", "success");
+  // Show loading state
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+  submitBtn.textContent = isEditMode ? "Mengupdate..." : "Menyimpan...";
+  submitBtn.disabled = true;
+
+  // Prepare request
+  const url = "tournament_api.php";
+  const method = isEditMode ? "PUT" : "POST";
+
+  if (isEditMode) {
+    data.id = tournamentId;
+  }
+
+  // Send data to server
+  fetch(url, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.success) {
+        const message = isEditMode
+          ? "Turnamen berhasil diupdate!"
+          : "Turnamen berhasil ditambahkan!";
+        showNotification(message, "success");
+        closeModal();
+        form.reset();
+        // Reset form mode
+        form.dataset.mode = "";
+        form.dataset.tournamentId = "";
+        document.querySelector(".modal-header h2").textContent =
+          "Tambah Turnamen Baru";
+        // Reload page to show changes
+        setTimeout(() => window.location.reload(), 1000);
+      } else {
+        showNotification("Error: " + result.error, "error");
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      showNotification("Terjadi kesalahan saat menyimpan turnamen", "error");
+    })
+    .finally(() => {
+      // Reset button state
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    });
 }
 
 // Validate Tournament Form
@@ -723,3 +819,65 @@ document.addEventListener("keydown", function (e) {
     closeModal();
   }
 });
+
+// Edit tournament function - DEPRECATED
+// This function is now handled in dashboardEO.php
+/*
+window.editTournament = function (id) {
+  fetch(`tournament_api.php?id=${id}`)
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.success) {
+        // Populate form with tournament data
+        const tournament = result.tournament;
+        document.getElementById("tournamentName").value =
+          tournament.nama_turnamen;
+        document.getElementById("gameType").value = tournament.format;
+        document.getElementById("startDate").value =
+          tournament.tanggal_mulai.replace(" ", "T");
+        document.getElementById("endDate").value = tournament.tanggal_selesai
+          ? tournament.tanggal_selesai.replace(" ", "T")
+          : "";
+        document.getElementById("maxTeams").value = tournament.slot;
+        document.getElementById("prizePool").value = tournament.hadiah_turnamen;
+        document.getElementById("description").value =
+          tournament.deskripsi_turnamen;
+        document.getElementById("registrationFee").value =
+          tournament.biaya_turnamen;
+
+        // Change form to edit mode
+        const form = document.getElementById("addTournamentForm");
+        form.dataset.mode = "edit";
+        form.dataset.tournamentId = id;
+
+        // Change modal title
+        document.querySelector(".modal-header h2").textContent =
+          "Edit Turnamen";
+
+        // Open modal
+        openAddTournamentModal();
+      } else {
+        showNotification("Error: " + result.error, "error");
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      showNotification(
+        "Terjadi kesalahan saat mengambil data turnamen",
+        "error"
+      );
+    });
+};
+*/
+
+// View tournament function - DEPRECATED
+// This function is now handled in dashboardEO.php
+// window.viewTournament = function (id) {
+//   // Deprecated - see dashboardEO.php for current implementation
+// };
+
+// Delete tournament function - DEPRECATED
+// This function is now handled in dashboardEO.php
+// window.deleteTournament = function (id) {
+//   // Deprecated - see dashboardEO.php for current implementation
+// };

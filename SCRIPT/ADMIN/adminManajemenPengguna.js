@@ -49,15 +49,14 @@ class AdminUserManagement extends AdminBase {
   // Override showSection from base class - not needed for dedicated user management page
   showSection(section) {
     // Since this is a dedicated user management page, we don't need section switching
-    console.log(`User management page - section: ${section}`);
   }
 
   // User Management Functions
   editUser(userId) {
     AdminUtils.showNotification(
       `Edit user dengan ID: ${userId}\n\nFitur ini akan membuka form edit pengguna.`
+      // Here you would typically open an edit modal or redirect to edit page
     );
-    // Here you would typically open an edit modal or redirect to edit page
   }
 
   deleteUser(userId) {
@@ -87,8 +86,8 @@ class AdminUserManagement extends AdminBase {
   addUser() {
     AdminUtils.showNotification(
       "Tambah Pengguna Baru\n\nFitur ini akan membuka form untuk menambahkan pengguna baru."
+      // Here you would typically open an add user modal or redirect to add user page
     );
-    // Here you would typically open an add user modal or redirect to add user page
   }
 
   // Add new user to table

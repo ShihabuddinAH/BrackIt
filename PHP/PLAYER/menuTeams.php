@@ -59,7 +59,7 @@ if ($result && $result->num_rows > 0) {
               <span class="username" id="username"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
               <span class="dropdown-arrow">▼</span>
               <div class="user-dropdown">
-                <a href="#" class="dropdown-item">Profile</a>
+                <a href="profile.php" class="dropdown-item">Profile</a>
                 <button class="dropdown-item" id="logoutBtn">Logout</button>
               </div>
             </div>
@@ -140,8 +140,8 @@ if ($result && $result->num_rows > 0) {
       </section>
     </main>
 
-    <script src="../../SCRIPT/navbar.js"></script>
-    <script src="../../SCRIPT/team-modal.js"></script>
+    <script src="../../SCRIPT/PLAYER/navbar.js"></script>
+    <script src="../../SCRIPT/PLAYER/team-modal.js"></script>
     <script>
       // Pass teams data to JavaScript for team modal
       const teamsData = <?php echo json_encode($new_teams); ?>;

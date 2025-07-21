@@ -339,8 +339,6 @@ body {
 .card-image {
   position: relative;
   height: 200px;
-  /* background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23FFD700;stop-opacity:1" /><stop offset="50%" style="stop-color:%234169E1;stop-opacity:1" /><stop offset="100%" style="stop-color:%238A2BE2;stop-opacity:1" /></linearGradient></defs><rect width="400" height="250" fill="url(%23grad1)"/><circle cx="200" cy="125" r="60" fill="rgba(255,255,255,0.3)"/><polygon points="170,100 230,100 250,150 150,150" fill="rgba(255,255,255,0.2)"/></svg>')
-    center/cover; */
   background-size: cover;
   background-position: center;
   display: flex;

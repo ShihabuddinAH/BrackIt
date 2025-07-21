@@ -264,11 +264,35 @@
   color: var(--text-color);
 }
 
+.member-nickname {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  margin-bottom: 5px;
+}
+
 .member-role {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.7);
   text-transform: uppercase;
   letter-spacing: 1px;
+  background: rgba(255, 0, 0, 0.2);
+  padding: 4px 8px;
+  border-radius: 12px;
+  margin-bottom: 5px;
+}
+
+.member-id {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: monospace;
+}
+
+.member-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }
 
 /* Loading State */

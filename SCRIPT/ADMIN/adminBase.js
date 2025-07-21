@@ -85,7 +85,6 @@ class AdminBase {
   // Show/Hide Sections - Override in child classes
   showSection(section) {
     // Base implementation - to be overridden
-    console.log(`Showing section: ${section}`);
   }
 
   // Handle Window Resize

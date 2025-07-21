@@ -1,0 +1,427 @@
+/* Import CSS utama untuk konsistensi */
+@import url('./navbar.css');
+@import url('./index.css');
+
+/* Tournament Detail Specific Styles */
+.tournament-detail {
+  min-height: 100vh;
+  padding: 2rem 0;
+  margin-top: 100px; /* Sesuai dengan navbar */
+}
+
+.tournament-hero {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 0, 0.9) 0%,
+    rgba(61, 0, 0, 0.8) 100%
+  );
+  padding: 80px 20px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-top: -100px;
+  padding-top: 180px;
+}
+
+.tournament-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3;
+  z-index: -1;
+}
+
+.tournament-hero.unisi-cup::before {
+  background-image: url('../ASSETS/unisi-cup-banner.jpg');
+}
+
+.tournament-hero.mobile-legends::before {
+  background-image: url('../ASSETS/mobile-legends-banner.jpg');
+}
+
+.tournament-hero.pubg::before {
+  background-image: url('../ASSETS/pubg-banner.jpg');
+}
+
+.tournament-hero.free-fire::before {
+  background-image: url('../ASSETS/free-fire-banner.jpg');
+}
+
+.tournament-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+  color: var(--text-color);
+}
+
+.tournament-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  color: var(--text-color);
+}
+
+.tournament-status {
+  display: inline-block;
+  padding: 10px 30px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid var(--primary-color);
+  border-radius: 50px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  backdrop-filter: blur(10px);
+  color: var(--text-color);
+}
+
+.back-button {
+  position: absolute;
+  top: 120px;
+  left: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: var(--text-color);
+  padding: 10px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
+.back-button:hover {
+  background: rgba(255, 0, 0, 0.2);
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  color: var(--text-color);
+}
+
+.tournament-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin: 60px 0;
+}
+
+.info-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 20px;
+  padding: 40px;
+  backdrop-filter: blur(15px);
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(255, 0, 0, 0.2);
+  border-color: var(--primary-color);
+}
+
+.info-card h3 {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.info-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-list li:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.info-value {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.prize-pool {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  font-weight: 900;
+}
+
+.tournament-description {
+  grid-column: 1 / -1;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 20px;
+  padding: 40px;
+  backdrop-filter: blur(15px);
+  margin: 40px 0;
+}
+
+.tournament-description h3 {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.tournament-description p {
+  line-height: 1.8;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1rem;
+}
+
+.rules-section {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 20px;
+  padding: 40px;
+  backdrop-filter: blur(15px);
+  margin: 40px 0;
+}
+
+.rules-section h3 {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.rules-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rules-list li {
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  padding-left: 30px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+}
+
+.rules-list li:before {
+  content: '•';
+  color: var(--primary-color);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  font-size: 1.5rem;
+}
+
+.rules-list li:last-child {
+  border-bottom: none;
+}
+
+.registration-section {
+  text-align: center;
+  margin: 60px 0;
+  padding: 60px 40px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 0, 0.1) 0%,
+    rgba(61, 0, 0, 0.2) 100%
+  );
+  border: 2px solid rgba(255, 0, 0, 0.3);
+  border-radius: 30px;
+  backdrop-filter: blur(15px);
+}
+
+.registration-section h3 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.registration-section p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.register-button {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: var(--text-color);
+  padding: 18px 50px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.register-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(255, 0, 0, 0.5);
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  color: var(--text-color);
+}
+
+.registration-closed {
+  background: rgba(100, 100, 100, 0.3) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  cursor: not-allowed !important;
+}
+
+.registration-closed:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  background: rgba(100, 100, 100, 0.3) !important;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .tournament-detail {
+    margin-top: 80px;
+  }
+
+  .tournament-hero {
+    margin-top: -80px;
+    padding-top: 160px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .tournament-title {
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
+
+  .tournament-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .back-button {
+    top: 100px;
+    left: 20px;
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin: 40px 0;
+  }
+
+  .info-card,
+  .tournament-description,
+  .rules-section {
+    padding: 30px 20px;
+  }
+
+  .registration-section {
+    padding: 40px 20px;
+    margin: 40px 0;
+  }
+
+  .registration-section h3 {
+    font-size: 2rem;
+  }
+
+  .register-button {
+    padding: 15px 40px;
+    font-size: 1.1rem;
+  }
+
+  .info-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .tournament-hero {
+    padding: 120px 15px 40px;
+    margin-top: -80px;
+  }
+
+  .tournament-title {
+    font-size: 2rem;
+    letter-spacing: 1px;
+  }
+
+  .tournament-subtitle {
+    font-size: 1rem;
+  }
+
+  .back-button {
+    top: 90px;
+    left: 15px;
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .info-card h3,
+  .tournament-description h3,
+  .rules-section h3 {
+    font-size: 1.5rem;
+  }
+
+  .tournament-content {
+    padding: 0 15px;
+  }
+
+  .register-button {
+    padding: 12px 30px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+
+  .registration-section h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Animation untuk scroll reveal */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

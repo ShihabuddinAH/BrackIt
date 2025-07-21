@@ -37,6 +37,8 @@ if ($result && $result->num_rows > 0) {
     <title>Tournaments - BrackIt</title>
     <link rel="stylesheet" href="../../CSS/PLAYER/navbar.css" />
     <link rel="stylesheet" href="../../CSS/PLAYER/tournament.css" />
+    <link rel="stylesheet" href="../../CSS/PLAYER/tournament-modal.css" />
+    <link rel="stylesheet" href="../../CSS/PLAYER/tournament-registration.css" />
   </head>
   <body>
     <header class="header">
@@ -54,7 +56,7 @@ if ($result && $result->num_rows > 0) {
               <span class="username" id="username"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
               <span class="dropdown-arrow">▼</span>
               <div class="user-dropdown">
-                <a href="#" class="dropdown-item">Profile</a>
+                <a href="profile.php" class="dropdown-item">Profile</a>
                 <button class="dropdown-item" id="logoutBtn">Logout</button>
               </div>
             </div>
@@ -102,10 +104,10 @@ if ($result && $result->num_rows > 0) {
       <div class="tournaments">
         <?php if (!empty($new_turnamen)): ?>
             <?php foreach ($new_turnamen as $index => $turnamen): ?>
-              <div class="tournament-card">
+              <div class="tournament-card" data-tournament-id="<?php echo htmlspecialchars($turnamen['id_turnamen']); ?>">
                 <div class="card-image" style="background-image: url('../../ASSETS/LOGO.png');">
                   <div class="mobile-legends-logo">
-                    MOBILE LEGENDS
+                    <?php echo htmlspecialchars($turnamen['format']); ?>
                   </div>
                 </div>
                 <div class="card-content">
@@ -128,21 +130,21 @@ if ($result && $result->num_rows > 0) {
       </div>
     </div>
 
-    <script src="SCRIPT/navbar.js"></script>
-    <script>
-      // Logout functionality
-      document.addEventListener('DOMContentLoaded', function() {
-          const logoutBtn = document.getElementById('logoutBtn');
-          
-          if (logoutBtn) {
-              logoutBtn.addEventListener('click', function() {
-                  if (confirm('Apakah Anda yakin ingin logout?')) {
-                      // Redirect to logout script
-                      window.location.href = '../../PHP/LOGIN/logout.php';
-                  }
-              });
-          }
-      });
-    </script>
+    <!-- Tournament Registration Modal -->
+    <div id="registrationModal" class="registration-modal">
+      <div class="registration-modal-content">
+        <button class="modal-close" id="closeRegistrationModal">&times;</button>
+        <div class="modal-header">
+          <h2 class="modal-title">Daftar Turnamen</h2>
+        </div>
+        <div id="modalContent">
+          <!-- Content will be loaded dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <script src="../../SCRIPT/PLAYER/navbar.js"></script>
+    <script src="../../SCRIPT/PLAYER/tournament-modal.js"></script>
+    <script src="../../SCRIPT/PLAYER/tournament-registration.js"></script>
   </body>
 </html>

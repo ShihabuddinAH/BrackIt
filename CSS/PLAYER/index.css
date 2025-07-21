@@ -51,13 +51,93 @@ body {
   z-index: 2;
 }
 
+.tournament-card {
+  position: relative;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tournament-card:hover {
+  transform: translateY(-10px);
+  border-color: #ff4757;
+  box-shadow: 0 20px 50px rgba(255, 71, 87, 0.3);
+}
+
+.card-image {
+  position: relative;
+  height: 200px;
+  /* background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23FFD700;stop-opacity:1" /><stop offset="50%" style="stop-color:%234169E1;stop-opacity:1" /><stop offset="100%" style="stop-color:%238A2BE2;stop-opacity:1" /></linearGradient></defs><rect width="400" height="250" fill="url(%23grad1)"/><circle cx="200" cy="125" r="60" fill="rgba(255,255,255,0.3)"/><polygon points="170,100 230,100 250,150 150,150" fill="rgba(255,255,255,0.2)"/></svg>')
+    center/cover; */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+  flex-shrink: 0;
+}
+
+.mobile-legends-logo {
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffd700;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.card-content {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 15px;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta-icon {
+  width: 14px;
+  height: 14px;
+  background: #ff4757;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 .tournament-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 25px;
-  padding: 0 20px;
-  width: 100%;
-  max-width: 1200px;
+  padding: 0 40px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -461,7 +541,7 @@ body {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 1000;
+  z-index: 9999; /* Increased z-index */
 }
 
 .chatbot-button {
@@ -480,6 +560,8 @@ body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
   animation: pulse 2s infinite;
+  position: relative; /* Added for better positioning */
+  z-index: 10000; /* Ensure button is on top */
 }
 
 .chatbot-button:hover {
@@ -503,15 +585,32 @@ body {
   position: absolute;
   bottom: 80px;
   right: 0;
-  width: 350px;
-  height: 450px;
-  background: var(--text-color);
-  border-radius: 15px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  display: none;
+  width: 380px;
+  height: 500px;
+  background: linear-gradient(145deg, #1e1e1e 0%, #2d2d2d 100%);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 75, 75, 0.3);
+  display: none !important;
   flex-direction: column;
   overflow: hidden;
-  border: 2px solid var(--primary-color);
+  backdrop-filter: blur(10px);
+  z-index: 9998;
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.chatbot-window.show {
+  display: flex !important;
 }
 
 .chatbot-header {
@@ -521,61 +620,170 @@ body {
     var(--secondary-color) 100%
   );
   color: var(--text-color);
-  padding: 15px 20px;
+  padding: 20px 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.chatbot-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
 }
 
 .chatbot-header h4 {
   margin: 0;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   font-family: var(--font-family);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chatbot-header h4::before {
+  content: "🤖";
+  font-size: 20px;
 }
 
 .chatbot-close {
-  background: none;
+  background: rgba(255, 255, 255, 0.1);
   border: none;
   color: var(--text-color);
-  font-size: 24px;
+  font-size: 18px;
   cursor: pointer;
-  padding: 0;
-  width: 30px;
-  height: 30px;
+  padding: 8px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .chatbot-close:hover {
   background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
 }
 
 .chatbot-messages {
   flex: 1;
-  padding: 20px;
+  padding: 25px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  background: var(--background);
+  background: linear-gradient(145deg, #1a1a1a 0%, #252525 100%);
+  position: relative;
+}
+
+.chatbot-messages::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(30, 30, 30, 1) 0%,
+    rgba(30, 30, 30, 0) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.chatbot-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chatbot-messages::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  border-radius: 3px;
+}
+
+.chatbot-messages::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
 }
 
 .message {
-  max-width: 80%;
-  padding: 12px 16px;
-  border-radius: 18px;
-  line-height: 1.4;
+  max-width: 85%;
+  padding: 15px 18px;
+  border-radius: 20px;
+  line-height: 1.5;
+  position: relative;
+  animation: messageSlide 0.3s ease-out;
+  word-wrap: break-word;
+}
+
+@keyframes messageSlide {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .bot-message {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-color);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 75, 75, 0.15) 0%,
+    rgba(255, 107, 107, 0.15) 100%
+  );
+  color: #ffffff;
   align-self: flex-start;
   backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 75, 75, 0.2);
+  border-radius: 20px 20px 20px 5px;
+  box-shadow: 0 4px 15px rgba(255, 75, 75, 0.1);
+}
+
+.bot-message::before {
+  content: "🤖";
+  position: absolute;
+  left: -35px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 2px 10px rgba(255, 75, 75, 0.3);
 }
 
 .user-message {
@@ -586,45 +794,88 @@ body {
   );
   color: var(--text-color);
   align-self: flex-end;
+  border-radius: 20px 20px 5px 20px;
+  box-shadow: 0 4px 15px rgba(255, 75, 75, 0.3);
+  position: relative;
+}
+
+.user-message::before {
+  content: "👤";
+  position: absolute;
+  right: -35px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #4a4a4a, #6a6a6a);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .message p {
   margin: 0;
-  font-size: 14px;
+  font-size: 15px;
   font-family: var(--font-family);
+  font-weight: 400;
 }
 
 .chatbot-input {
-  padding: 15px 20px;
-  border-top: 1px solid var(--primary-color);
+  padding: 20px 25px;
+  border-top: 1px solid rgba(255, 75, 75, 0.2);
   display: flex;
-  gap: 10px;
-  background: var(--background);
+  gap: 12px;
+  background: linear-gradient(145deg, #1e1e1e 0%, #2d2d2d 100%);
+  position: relative;
+}
+
+.chatbot-input::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
 }
 
 .chatbot-input input {
   flex: 1;
-  padding: 12px 15px;
-  border: 1px solid var(--primary-color);
+  padding: 15px 20px;
+  border: 2px solid rgba(255, 75, 75, 0.3);
   border-radius: 25px;
   outline: none;
-  font-size: 14px;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-color);
+  font-size: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
   font-family: var(--font-family);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .chatbot-input input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 400;
 }
 
 .chatbot-input input:focus {
   border-color: var(--secondary-color);
-  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(255, 75, 75, 0.15),
+    0 4px 20px rgba(255, 75, 75, 0.1);
+  transform: translateY(-1px);
 }
 
 .chatbot-input button {
-  padding: 12px 20px;
+  padding: 15px 25px;
   background: linear-gradient(
     135deg,
     var(--primary-color) 0%,
@@ -634,10 +885,119 @@ body {
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   font-family: var(--font-family);
   transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 75, 75, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.chatbot-input button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.chatbot-input button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(255, 75, 75, 0.4);
+}
+
+.chatbot-input button:hover::before {
+  left: 100%;
+}
+
+.chatbot-input button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(255, 75, 75, 0.3);
+}
+
+/* Typing indicator */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 15px 18px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 75, 75, 0.1) 0%,
+    rgba(255, 107, 107, 0.1) 100%
+  );
+  border-radius: 20px 20px 20px 5px;
+  max-width: 85%;
+  align-self: flex-start;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 75, 75, 0.2);
+  margin-bottom: 15px;
+}
+
+.typing-indicator::before {
+  content: "🤖";
+  position: absolute;
+  left: -35px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 2px 10px rgba(255, 75, 75, 0.3);
+}
+
+.typing-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.typing-dots span {
+  width: 8px;
+  height: 8px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  animation: typingDots 1.4s infinite ease-in-out;
+}
+
+.typing-dots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+.typing-dots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+.typing-dots span:nth-child(3) {
+  animation-delay: 0;
+}
+
+@keyframes typingDots {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .chatbot-input button:hover {
@@ -647,7 +1007,12 @@ body {
 
 /* Responsive Design */
 @media screen and (max-width: 1200px) {
-  .tournament-cards,
+  .tournament-cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    padding: 0 30px;
+  }
+
   .team-cards {
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
@@ -673,7 +1038,12 @@ body {
 }
 
 @media screen and (max-width: 900px) {
-  .tournament-cards,
+  .tournament-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 0 15px;
+  }
+
   .team-cards {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
@@ -716,7 +1086,13 @@ body {
 /* Navbar responsive styles moved to navbar.css */
 
 @media screen and (max-width: 600px) {
-  .tournament-cards,
+  .tournament-cards {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 0 10px;
+    max-width: none;
+  }
+
   .team-cards {
     grid-template-columns: 1fr;
     gap: 15px;
@@ -793,7 +1169,12 @@ body {
     padding: 20px 10px;
   }
 
-  .tournament-cards,
+  .tournament-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0 10px;
+  }
+
   .team-cards {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -899,6 +1280,19 @@ body {
   }
 }
 
+/* Ultra-wide screens */
+@media screen and (min-width: 1600px) {
+  .tournament-cards {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1400px;
+  }
+
+  .title h1 {
+    font-size: 5rem;
+    letter-spacing: 8px;
+  }
+}
+
 /* Tablet styles (768px - 1024px) */
 @media screen and (max-width: 1024px) and (min-width: 769px) {
   body {
@@ -919,7 +1313,13 @@ body {
     padding: 45px 15px;
   }
 
-  .tournament-cards,
+  .tournament-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 0 15px;
+    max-width: 800px;
+  }
+
   .team-cards {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
@@ -998,7 +1398,13 @@ body {
     padding: 30px 10px;
   }
 
-  .tournament-cards,
+  .tournament-cards {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 0 10px;
+    max-width: 100%;
+  }
+
   .team-cards {
     grid-template-columns: 1fr;
     gap: 15px;

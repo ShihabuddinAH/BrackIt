@@ -118,19 +118,61 @@ body {
   margin-bottom: 30px;
 }
 
+/* Alert Messages */
+.alert {
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.alert-error {
+  background: linear-gradient(
+    135deg,
+    rgba(220, 38, 27, 0.2),
+    rgba(255, 69, 0, 0.1)
+  );
+  color: #ff6b6b;
+  border: 1px solid rgba(220, 38, 27, 0.4);
+}
+
+.alert-success {
+  background: linear-gradient(
+    135deg,
+    rgba(76, 175, 80, 0.2),
+    rgba(139, 195, 74, 0.1)
+  );
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.4);
+}
+
 .logo {
+  margin-bottom: 20px;
+}
+
+.logo-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #dc261b;
+  box-shadow: 0 0 10px rgba(220, 38, 27, 0.3);
+}
+
+.login-header h1 {
   font-size: 28px;
   font-weight: bold;
   color: #dc261b;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 2px;
   text-shadow: 0 0 10px rgba(220, 38, 27, 0.5);
 }
 
-.subtitle {
+.login-header p {
   color: #888;
-  font-size: 14px;
+  font-size: 16px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -146,6 +188,20 @@ body {
   position: relative;
 }
 
+/* Input Groups */
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-group i {
+  position: absolute;
+  left: 15px;
+  color: rgba(220, 38, 27, 0.7);
+  z-index: 2;
+}
+
 .form-group label {
   color: #ccc;
   font-size: 12px;
@@ -157,7 +213,7 @@ body {
 
 .form-group input {
   width: 100%;
-  padding: 15px 20px;
+  padding: 15px 50px 15px 45px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
@@ -175,6 +231,34 @@ body {
 
 .form-group input::placeholder {
   color: rgba(255, 255, 255, 0.4);
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  background: none;
+  border: none;
+  color: rgba(220, 38, 27, 0.7);
+  cursor: pointer;
+  padding: 8px;
+  z-index: 2;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.toggle-password:hover {
+  color: #dc261b;
+  background: rgba(220, 38, 27, 0.1);
+}
+
+.toggle-password i {
+  position: static;
+  font-size: 14px;
 }
 
 .form-group select {

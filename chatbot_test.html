@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbot Test</title>
+    <style>
+      .chatbot-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
+      .chatbot-button {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #ff0000 0%, #ff6600 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+      }
+      .chatbot-button:hover {
+        transform: scale(1.1);
+      }
+      .chatbot-window {
+        position: absolute;
+        bottom: 80px;
+        right: 0;
+        width: 350px;
+        height: 450px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        display: none;
+        flex-direction: column;
+        border: 2px solid #ff0000;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Test Chatbot Button</h1>
+
+    <div class="chatbot-container">
+      <div class="chatbot-button" id="chatbotButton">
+        <span style="color: white">💬</span>
+      </div>
+
+      <div class="chatbot-window" id="chatbotWindow">
+        <div style="padding: 20px">
+          <h3>Chatbot Test</h3>
+          <p>Jika Anda bisa melihat ini, tombol chatbot bekerja!</p>
+          <button
+            onclick="document.getElementById('chatbotWindow').style.display='none'"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const chatbotButton = document.getElementById("chatbotButton");
+        const chatbotWindow = document.getElementById("chatbotWindow");
+
+        console.log("Chatbot button:", chatbotButton);
+        console.log("Chatbot window:", chatbotWindow);
+
+        if (chatbotButton) {
+          chatbotButton.addEventListener("click", function () {
+            console.log("Chatbot button clicked!");
+            if (
+              chatbotWindow.style.display === "none" ||
+              chatbotWindow.style.display === ""
+            ) {
+              chatbotWindow.style.display = "flex";
+              console.log("Showing chatbot window");
+            } else {
+              chatbotWindow.style.display = "none";
+              console.log("Hiding chatbot window");
+            }
+          });
+        } else {
+          console.error("Chatbot button not found!");
+        }
+      });
+    </script>
+  </body>
+</html>

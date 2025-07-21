@@ -10,7 +10,7 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 9999;
   background: transparent;
   transition: all 0.3s ease;
   height: 80px;
@@ -344,23 +344,31 @@ header {
   background: transparent;
   transition: all 0.3s ease;
   cursor: pointer;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 500;
+  z-index: 9999;
+  pointer-events: auto;
 }
 
 .user-info:hover {
   background: rgba(255, 0, 0, 0.1);
   transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
 }
 
 .username {
-  color: var(--text-color);
-  font-size: 16px;
-  font-weight: 500;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  pointer-events: none; /* Let clicks pass through to parent */
 }
 
 .dropdown-arrow {
-  color: var(--text-color);
+  color: inherit;
   font-size: 12px;
   transition: transform 0.3s ease;
+  pointer-events: none; /* Let clicks pass through to parent */
 }
 
 .user-info:hover .dropdown-arrow {
@@ -372,17 +380,15 @@ header {
   top: 100%;
   right: 0;
   margin-top: 10px;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.95);
   border: 2px solid var(--primary-color);
   border-radius: 10px;
   padding: 10px 0;
   min-width: 150px;
   display: none;
-  z-index: 1000;
-}
-
-.user-info:hover .user-dropdown {
-  display: block;
+  z-index: 10000;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(255, 0, 0, 0.2);
 }
 
 .dropdown-item {
@@ -397,6 +403,7 @@ header {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 14px;
+  font-family: inherit;
 }
 
 .dropdown-item:hover {
@@ -406,6 +413,11 @@ header {
 
 /* Mobile responsiveness for dropdown */
 @media screen and (max-width: 768px) {
+  .user-info {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
   .user-dropdown {
     right: -10px;
     min-width: 140px;

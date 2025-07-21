@@ -18,7 +18,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
 }
 
 // Query untuk mengambil 3 team dengan point terbanyak
-$query = "SELECT nama_team, win, point FROM team ORDER BY point DESC LIMIT 3";
+$query = "SELECT nama_team, win, lose, (win + lose) as total_match, point FROM team ORDER BY point DESC LIMIT 3";
 $result = $conn->query($query);
 $top_teams = [];
 if ($result && $result->num_rows > 0) {
@@ -38,7 +38,7 @@ if ($result && $result->num_rows > 0) {
 }
 
 // Query untuk mengambil 4 turnamen terbaru berdasarkan id terbesar (turnamen terbaru)
-$query = "SELECT *from turnamen ORDER BY id_turnamen DESC LIMIT 4";
+$query = "SELECT * FROM turnamen ORDER BY id_turnamen DESC LIMIT 4";
 $result = $conn->query($query);
 $new_turnamen = [];
 if ($result && $result->num_rows > 0) {
@@ -58,6 +58,8 @@ if ($result && $result->num_rows > 0) {
     <link rel="stylesheet" href="CSS/PLAYER/navbar.css" />
     <link rel="stylesheet" href="CSS/PLAYER/index.css" />
     <link rel="stylesheet" href="CSS/PLAYER/team-modal.css" />
+    <link rel="stylesheet" href="CSS/PLAYER/tournament-modal.css" />
+    <link rel="stylesheet" href="CSS/PLAYER/tournament-registration.css" />
   </head>
   <body>
     <header class="header">
@@ -77,7 +79,7 @@ if ($result && $result->num_rows > 0) {
               <span class="username" id="username"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
               <span class="dropdown-arrow">▼</span>
               <div class="user-dropdown">
-                <a href="#" class="dropdown-item">Profile</a>
+                <a href="PHP/PLAYER/profile.php" class="dropdown-item">Profile</a>
                 <button class="dropdown-item" id="logoutBtn">Logout</button>
               </div>
             </div>
@@ -108,13 +110,21 @@ if ($result && $result->num_rows > 0) {
         <div class="tournament-cards">
           <?php if (!empty($new_turnamen)): ?>
             <?php foreach ($new_turnamen as $index => $turnamen): ?>
-              <div class="tournament-card">
-                <div class="tournament-logo">
-                  <img src="ASSETS/LOGO.png" 
-                       alt="<?php echo htmlspecialchars($turnamen['nama_turnamen']); ?>" 
-                       onerror="this.src='ASSETS/LOGO.png'" />
+              <div class="tournament-card" data-tournament-id="<?php echo htmlspecialchars($turnamen['id_turnamen']); ?>">
+                <div class="card-image" style="background-image: url('ASSETS/LOGO.png');">
+                  <div class="mobile-legends-logo">
+                    <?php echo htmlspecialchars($turnamen['format']); ?>
+                  </div>
                 </div>
-                <h1><?php echo htmlspecialchars($turnamen['nama_turnamen']); ?></h1>
+                <div class="card-content">
+                  <h3 class="card-title"><?php echo htmlspecialchars($turnamen['nama_turnamen']); ?></h3>
+                  <div class="card-meta">
+                    <div class="meta-item">
+                      <div class="meta-icon"></div>
+                      <span>8+</span>
+                    </div>
+                  </div>
+                </div>
               </div>
           <?php endforeach; ?>
               <?php else: ?>
@@ -169,6 +179,8 @@ if ($result && $result->num_rows > 0) {
                 <th>#</th>
                 <th>Tim</th>
                 <th>W</th>
+                <th>L</th>
+                <th>M</th>
                 <th>PTS</th>
               </tr>
             </thead>
@@ -178,13 +190,15 @@ if ($result && $result->num_rows > 0) {
                   <tr>
                     <td><?php echo $index + 1; ?></td>
                     <td><?php echo htmlspecialchars($team['nama_team']); ?></td>
-                    <td><?php echo htmlspecialchars($team['win']); ?></td>
+                    <td><?php echo htmlspecialchars($team['win'] ?? 0); ?></td>
+                    <td><?php echo htmlspecialchars($team['lose'] ?? 0); ?></td>
+                    <td><?php echo htmlspecialchars($team['total_match'] ?? 0); ?></td>
                     <td><?php echo htmlspecialchars($team['point']); ?></td>
                   </tr>
                 <?php endforeach; ?>
               <?php else: ?>
                 <tr>
-                  <td colspan="4">Tidak ada data tim tersedia</td>
+                  <td colspan="6">Tidak ada data tim tersedia</td>
                 </tr>
               <?php endif; ?>
             </tbody>
@@ -250,7 +264,7 @@ if ($result && $result->num_rows > 0) {
 
     <!-- Chatbot Container -->
     <div class="chatbot-container">
-      <div class="chatbot-button" id="chatbotButton">
+      <div class="chatbot-button" id="chatbotButton" onclick="toggleChatbot()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.17L4 17.17V4H20V16Z" fill="white"/>
           <circle cx="7" cy="10" r="1" fill="white"/>
@@ -267,25 +281,115 @@ if ($result && $result->num_rows > 0) {
         </div>
         <div class="chatbot-messages" id="chatbotMessages">
           <div class="message bot-message">
-            <p>Halo! Saya BrackIt Assistant. Ada yang bisa saya bantu?</p>
+            <p>🎮 Halo! Saya BrackIt Assistant, siap membantu Anda! 🚀<br><br>
+            Tanya saya tentang:<br>
+            • 🏆 Tournament yang tersedia<br>
+            • 👥 Informasi tim dan klasemen<br>
+            • 📝 Cara mendaftar dan bermain<br><br>
+            Ada yang bisa saya bantu hari ini?</p>
           </div>
         </div>
         <div class="chatbot-input">
-          <input type="text" id="chatbotInput" placeholder="Ketik pesan Anda...">
+          <input type="text" id="chatbotInput" placeholder="Tanya tentang BrackIt...">
           <button id="chatbotSend">Kirim</button>
         </div>
       </div>
     </div>
 
-    <script src="SCRIPT/navbar.js"></script>
-    <script src="SCRIPT/chatbot.js"></script>
-    <script src="SCRIPT/team-modal.js"></script>
+    <!-- Tournament Registration Modal -->
+    <div id="registrationModal" class="registration-modal">
+        <div class="registration-modal-content">
+            <button class="modal-close" id="closeRegistrationModal">&times;</button>
+            <div class="modal-header">
+                <h2 class="modal-title">Daftar Turnamen</h2>
+            </div>
+            <div id="modalContent">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script src="SCRIPT/PLAYER/navbar.js"></script>
+    <script src="SCRIPT/AI/chatbot.js"></script>
+    <script src="SCRIPT/PLAYER/team-modal.js"></script>
+    <script src="SCRIPT/PLAYER/tournament-modal.js"></script>
+    
+    <script>
+      // Global function for chatbot toggle as fallback
+      function toggleChatbot() {
+        console.log("toggleChatbot called!");
+        const chatbotWindow = document.getElementById('chatbotWindow');
+        const chatbotInput = document.getElementById('chatbotInput');
+        
+        if (chatbotWindow) {
+          const isVisible = chatbotWindow.classList.contains('show');
+          console.log("Is currently visible:", isVisible);
+          
+          if (!isVisible) {
+            chatbotWindow.classList.add('show');
+            console.log("Showing chatbot window via global function");
+            if (chatbotInput) {
+              setTimeout(() => chatbotInput.focus(), 100);
+            }
+          } else {
+            chatbotWindow.classList.remove('show');
+            console.log("Hiding chatbot window via global function");
+          }
+        } else {
+          console.error("Chatbot window not found in global function!");
+        }
+      }
+      
+      // Also try to trigger on direct button click as backup
+      document.addEventListener('DOMContentLoaded', function() {
+        const chatbotButton = document.getElementById('chatbotButton');
+        if (chatbotButton) {
+          console.log("Setting up chatbot button click handler");
+          
+          // Add multiple event listeners to ensure it works
+          chatbotButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("Button clicked via addEventListener!");
+            toggleChatbot();
+          });
+          
+          chatbotButton.addEventListener('mousedown', function(e) {
+            console.log("Button mousedown event!");
+          });
+          
+          chatbotButton.addEventListener('touchstart', function(e) {
+            console.log("Button touchstart event!");
+          });
+        }
+      });
+    </script>
+    <script src="SCRIPT/PLAYER/tournament-registration.js"></script>
     
     <script>
     // Pass teams data to JavaScript for team modal
     const teamsData = <?php echo json_encode($new_teams); ?>;
-    </script>
     
+    // Initialize tournament modal when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Index: Initializing tournament modal...');
+        if (typeof TournamentModal !== 'undefined') {
+            window.tournamentModal = new TournamentModal();
+            console.log('Index: Tournament modal initialized');
+        } else {
+            console.error('Index: TournamentModal class not found');
+        }
+        
+        console.log('Index: Initializing tournament registration...');
+        if (typeof TournamentRegistration !== 'undefined') {
+            window.tournamentRegistration = new TournamentRegistration();
+            console.log('Index: Tournament registration initialized');
+        } else {
+            console.error('Index: TournamentRegistration class not found');
+        }
+    });
+    </script>
+
     <?php
     // Close database connection
     if (isset($conn)) {

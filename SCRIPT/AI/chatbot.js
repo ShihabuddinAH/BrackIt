@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("Chatbot script loaded");
+
   const chatbotButton = document.getElementById("chatbotButton");
   const chatbotWindow = document.getElementById("chatbotWindow");
   const chatbotClose = document.getElementById("chatbotClose");
@@ -6,23 +8,76 @@ document.addEventListener("DOMContentLoaded", function () {
   const chatbotSend = document.getElementById("chatbotSend");
   const chatbotMessages = document.getElementById("chatbotMessages");
 
+  console.log("Chatbot elements:", {
+    button: chatbotButton,
+    window: chatbotWindow,
+    close: chatbotClose,
+    input: chatbotInput,
+    send: chatbotSend,
+    messages: chatbotMessages,
+  });
+
+  if (!chatbotButton) {
+    console.error("Chatbot button not found!");
+    return;
+  }
+
+  if (!chatbotWindow) {
+    console.error("Chatbot window not found!");
+    return;
+  }
+
   // Toggle chatbot window
-  chatbotButton.addEventListener("click", function () {
-    if (
-      chatbotWindow.style.display === "none" ||
-      chatbotWindow.style.display === ""
-    ) {
-      chatbotWindow.style.display = "flex";
-      chatbotInput.focus();
+  chatbotButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("Chatbot button clicked!");
+
+    const isVisible = chatbotWindow.classList.contains("show");
+    console.log("Current visibility:", isVisible);
+
+    if (!isVisible) {
+      chatbotWindow.classList.add("show");
+      console.log("Showing chatbot window");
+      if (chatbotInput) {
+        setTimeout(() => chatbotInput.focus(), 100);
+      }
     } else {
-      chatbotWindow.style.display = "none";
+      chatbotWindow.classList.remove("show");
+      console.log("Hiding chatbot window");
     }
   });
 
+  // Alternative click handler using onclick as fallback
+  chatbotButton.onclick = function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("Chatbot button clicked via onclick!");
+
+    const isVisible = chatbotWindow.classList.contains("show");
+    if (!isVisible) {
+      chatbotWindow.classList.add("show");
+      if (chatbotInput) {
+        setTimeout(() => chatbotInput.focus(), 100);
+      }
+    } else {
+      chatbotWindow.classList.remove("show");
+    }
+  };
+
   // Close chatbot window
-  chatbotClose.addEventListener("click", function () {
-    chatbotWindow.style.display = "none";
-  });
+  if (chatbotClose) {
+    chatbotClose.addEventListener("click", function () {
+      console.log("Chatbot close button clicked!");
+      chatbotWindow.classList.remove("show");
+    });
+
+    // Alternative onclick for close button
+    chatbotClose.onclick = function () {
+      console.log("Chatbot close button clicked via onclick!");
+      chatbotWindow.classList.remove("show");
+    };
+  }
 
   // Send message function
   function sendMessage() {
@@ -68,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
-  // Add message to chat
+  // Add message to chat with improved formatting
   function addMessage(text, sender) {
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${sender}-message`;
@@ -80,16 +135,34 @@ document.addEventListener("DOMContentLoaded", function () {
       messageDiv.innerHTML = `<p>${text}</p>`;
     }
 
+    // Add animation class
+    messageDiv.style.opacity = "0";
+    messageDiv.style.transform = "translateY(10px)";
+
     chatbotMessages.appendChild(messageDiv);
+
+    // Trigger animation
+    setTimeout(() => {
+      messageDiv.style.opacity = "1";
+      messageDiv.style.transform = "translateY(0)";
+      messageDiv.style.transition = "all 0.3s ease-out";
+    }, 10);
+
     chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
   }
 
   // Show typing indicator
   function showTypingIndicator() {
     const typingDiv = document.createElement("div");
-    typingDiv.className = "message bot-message typing-indicator";
+    typingDiv.className = "typing-indicator";
     typingDiv.id = "typingIndicator";
-    typingDiv.innerHTML = "<p>Sedang mengetik...</p>";
+    typingDiv.innerHTML = `
+      <div class="typing-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    `;
 
     chatbotMessages.appendChild(typingDiv);
     chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
@@ -177,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
       !chatbotButton.contains(e.target) &&
       !chatbotWindow.contains(e.target)
     ) {
-      if (chatbotWindow.style.display === "flex") {
+      if (chatbotWindow.classList.contains("show")) {
         // Don't close immediately, add small delay to prevent accidental closes
       }
     }

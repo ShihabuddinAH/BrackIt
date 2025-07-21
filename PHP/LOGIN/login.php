@@ -22,6 +22,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - Gaming Portal</title>
     <link rel="stylesheet" href="../../CSS/LOGIN/login.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   </head>
   <body>
     <!-- Background elements -->
@@ -33,9 +34,26 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
     <!-- Main login container -->
     <div class="login-container">
       <div class="login-header">
-        <div class="logo">BrackIt</div>
-        <div class="subtitle">Gaming Portal</div>
+        <div class="logo">
+          <img src="../../ASSETS/LOGO.png" alt="BrackIt Logo" class="logo-img">
+        </div>
+        <h1>Welcome Back</h1>
+        <p>Sign in to continue your tournament journey</p>
       </div>
+
+      <!-- Display Success Messages -->
+      <?php if (isset($_GET['success'])): ?>
+        <div class="alert alert-success">
+          <?php echo htmlspecialchars(urldecode($_GET['success'])); ?>
+        </div>
+      <?php endif; ?>
+
+      <!-- Display Error Messages -->
+      <?php if (isset($_GET['error'])): ?>
+        <div class="alert alert-error">
+          <?php echo htmlspecialchars(urldecode($_GET['error'])); ?>
+        </div>
+      <?php endif; ?>
 
       <form class="login-form" action="auth.php" method="POST">
         <div class="form-group">
@@ -50,24 +68,33 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
 
         <div class="form-group">
           <label for="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Enter your username"
-            required
-          />
+          <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
         </div>
 
         <div class="form-group">
           <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Enter your password"
-            required
-          />
+          <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              required
+            />
+            <button type="button" class="toggle-password" onclick="togglePassword('password')">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
         </div>
 
         <div class="form-options">
@@ -100,7 +127,7 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
       </div>
 
       <div class="register-link">
-        Don't have an account? <a href="register.html">Sign up here</a>
+        Don't have an account? <a href="register.php">Sign up here</a>
       </div>
 
       <!-- Demo Credentials -->
@@ -124,6 +151,22 @@ if (isset($_SESSION['username']) && isset($_SESSION['role'])) {
       </div>
     </div>
 
+    <script>
+        // Toggle password visibility
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const button = field.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+    </script>
     <script src="../../SCRIPT/login.js"></script>
   </body>
 </html>
